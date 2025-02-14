@@ -1,23 +1,13 @@
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import notify from "../../functions/toastify/notify";
 
 const sendRequest = async (e, requestType) => {
   try {
-    const navigate = useNavigate();
-
     switch (requestType) {
       case "login":
-        await login(e);
-        navigate("/");
-        break;
+        return await sendLoginRequest(e);
       case "signup":
-        await signup(e);
-        navigate("/login");
-        break;
-      case "activate":
-        await activate(e);
-        break;
+        return await sendSignupRequest(e);
       default:
         throw "Request type undefined";
     }
@@ -34,11 +24,10 @@ const handleError = (error) => {
     }
   } else {
     notify("error", "Something happened");
-    console.log(error);
   }
 };
 
-const login = async (e) => {
+const sendLoginRequest = async (e) => {
   const body = {
     email: e.email,
     password: e.password,
@@ -62,7 +51,7 @@ const login = async (e) => {
   }
 };
 
-const signup = async (e) => {
+const sendSignupRequest = async (e) => {
   const body = {
     email: e.email,
     password: e.password,
