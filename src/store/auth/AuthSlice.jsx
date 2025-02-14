@@ -1,15 +1,27 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import sendRequest from "../../functions/request/auth";
 
-export const signup = createAsyncThunk("auth/signup", async (data) => {
-  await sendRequest(data, "signup");
+export const logout = createAsyncThunk("auth/logout", async () => {
+  localStorage.setItem("accessToken", null);
 });
 
-export const login = createAsyncThunk("auth/login", async (data) => {
-  const accessToken = await sendRequest(data, "login");
-  localStorage.setItem("accessToken", accessToken);
-  return accessToken;
-});
+export const signup = createAsyncThunk(
+  "auth/signup",
+  async ({ values, navigate }) => {
+    await sendRequest(values, "signup");
+    navigate("/login");
+  }
+);
+
+export const login = createAsyncThunk(
+  "auth/login",
+  async ({ values, navigate }) => {
+    const accessToken = await sendRequest(values, "login");
+    localStorage.setItem("accessToken", accessToken);
+    navigate("/");
+    return accessToken;
+  }
+);
 
 const initialState = {
   loading: false,
@@ -42,6 +54,9 @@ const AuthSlice = createSlice({
       })
       .addCase(login.rejected, (state) => {
         state.loading = false;
+        state.accessToken = null;
+      })
+      .addCase(logout.fulfilled, (state) => {
         state.accessToken = null;
       });
   },
