@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Layout, Row, Col, Form, Input, Button } from "antd";
 
@@ -7,12 +8,13 @@ import { signup } from "../../store/auth/AuthSlice";
 const { Content } = Layout;
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const loading = useSelector((state) => state.auth.loading);
 
   const handleSubmit = (values) => {
-    dispatch(signup(values));
+    dispatch(login({values, navigate}));
   };
 
   return (

@@ -1,15 +1,13 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Outlet } from "react-router-dom";
-
-import AuthContext from "../context/UserauthContext";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import checkPrivateRoute from "../functions/routeCheck/checkPrivateRoute";
 
 const PrivateRouteCheck = () => {
   const navigate = useNavigate();
 
-  let { accessToken } = useContext(AuthContext);
+  const accessToken = useSelector((state) => state.auth.accessToken);
 
   const location = useLocation();
   useEffect(() => {

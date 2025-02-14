@@ -1,17 +1,20 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Flex } from "antd";
+import { Button, Form, Input } from "antd";
 
 import { login } from "../../store/auth/AuthSlice";
 
 const Login = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const loading = useSelector((state) => state.auth.loading);
 
   const handleSubmit = (values) => {
-    dispatch(login(values));
+    dispatch(login({values, navigate}));
   };
 
   return (
@@ -21,34 +24,21 @@ const Login = () => {
       style={{ maxWidth: 360 }}
       onFinish={handleSubmit}
     >
-      <Form.Item
-        name="email"
-        rules={[{ required: true, message: "Please input your Email!" }]}
-      >
+      <Form.Item name="email">
         <Input
           prefix={<UserOutlined />}
+          type="text"
           placeholder="Email"
           disabled={loading}
         />
       </Form.Item>
-      <Form.Item
-        name="password"
-        rules={[{ required: true, message: "Please input your Password!" }]}
-      >
+      <Form.Item name="password">
         <Input
           prefix={<LockOutlined />}
           type="password"
           placeholder="Password"
           disabled={loading}
         />
-      </Form.Item>
-      <Form.Item>
-        <Flex justify="space-between" align="center">
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-          <a href="">Forgot password</a>
-        </Flex>
       </Form.Item>
 
       <Form.Item>
