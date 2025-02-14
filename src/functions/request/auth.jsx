@@ -24,7 +24,6 @@ const handleError = (error) => {
     }
   } else {
     notify("error", "Something happened");
-    console.log(error);
   }
 };
 

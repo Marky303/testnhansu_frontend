@@ -14,7 +14,7 @@ const SignUp = () => {
   const loading = useSelector((state) => state.auth.loading);
 
   const handleSubmit = (values) => {
-    dispatch(login({values, navigate}));
+    dispatch(signup({ values, navigate }));
   };
 
   return (

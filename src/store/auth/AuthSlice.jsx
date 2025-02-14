@@ -17,8 +17,10 @@ export const login = createAsyncThunk(
   "auth/login",
   async ({ values, navigate }) => {
     const accessToken = await sendRequest(values, "login");
-    localStorage.setItem("accessToken", accessToken);
-    navigate("/");
+    if (typeof accessToken == "string") {
+      localStorage.setItem("accessToken", accessToken);
+      navigate("/");
+    }
     return accessToken;
   }
 );
