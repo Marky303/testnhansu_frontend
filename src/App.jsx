@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Provider } from "react-redux";
 
-// Import contexts
-import { UserauthProvider } from "./context/UserauthContext";
+// Import stores
+import AuthStore from "./store/auth/AuthStore";
 
 // Import private route/link check
 import PrivateRouteCheck from "./hocs/PrivateRouteCheck";
@@ -30,24 +31,22 @@ import PageNotFound from "./pages/Error/PageNotFound";
 
 const App = () => (
   <BrowserRouter>
-    <Routes>
-      <Route exact path="/" element={<UserauthProvider />}>
-        <Route exact path="/" element={<PrivateRouteCheck />}>
-          <Route exact path="/" element={<Layout />}>
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/features" element={<Features />} />
-            <Route exact path="/pricing" element={<Pricing />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/signup" element={<Signup />} />
-            <Route exact path="/activate/:uid/:token" element={<Activate />} />
+    <Provider store={AuthStore}>
+      <Routes>
+        <Route exact path="/" element={<Layout />}>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/features" element={<Features />} />
+          <Route exact path="/pricing" element={<Pricing />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/signup" element={<Signup />} />
+          <Route exact path="/activate/:uid/:token" element={<Activate />} />
 
-            <Route exact path="/dashboard" element={<Dashboard />} />
-            <Route exact path="/search" element={<Search />} />
-          </Route>
+          <Route exact path="/dashboard" element={<Dashboard />} />
+          <Route exact path="/search" element={<Search />} />
         </Route>
         <Route exact path="*" element={<PageNotFound />} />
-      </Route>
-    </Routes>
+      </Routes>
+    </Provider>
   </BrowserRouter>
 );
 
