@@ -1,13 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import sendRequest from "../../functions/request/auth";
 
-export const signup = createAsyncThunk("auth/signup", async (e) => {
-  await sendRequest(e, "signup");
+export const signup = createAsyncThunk("auth/signup", async (data) => {
+  await sendRequest(data, "signup");
 });
 
-export const login = createAsyncThunk("auth/login", async (e) => {
-  const accessToken = await sendRequest(e, "login");
+export const login = createAsyncThunk("auth/login", async (data) => {
+  const accessToken = await sendRequest(data, "login");
   localStorage.setItem("accessToken", accessToken);
+  return accessToken;
 });
 
 const initialState = {

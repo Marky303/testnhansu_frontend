@@ -1,13 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import notify from "../../functions/toastify/notify";
 
 const sendRequest = async (e, requestType) => {
   try {
+    const navigate = useNavigate();
+
     switch (requestType) {
       case "login":
         await login(e);
+        navigate("/");
         break;
       case "signup":
         await signup(e);
+        navigate("/login");
         break;
       case "activate":
         await activate(e);
@@ -21,21 +27,10 @@ const sendRequest = async (e, requestType) => {
 };
 
 const handleError = (error) => {
-  if (error.response) {
-    for (var prop in error.response.data) {
-      if (Object.prototype.hasOwnProperty.call(error.response.data, prop)) {
-        // error.response.data have multiple types of properties
-        // "detail" property is a string containing a message
-        // other properties are a list of strings
-        switch (prop) {
-          case "detail":
-            notify("error", error.response.data[prop]);
-            break;
-          default:
-            for (const message of error.response.data[prop])
-              notify("error", prop + ": " + message);
-        }
-      }
+  const errorList = error.response.data.error;
+  if (errorList) {
+    for (const error of errorList) {
+      notify("error", error);
     }
   } else {
     notify("error", "Something happened");
@@ -45,8 +40,8 @@ const handleError = (error) => {
 
 const login = async (e) => {
   const body = {
-    email: e.target.email.value,
-    password: e.target.password.value,
+    email: e.email,
+    password: e.password,
   };
 
   const response = await axios.post(
@@ -69,9 +64,9 @@ const login = async (e) => {
 
 const signup = async (e) => {
   const body = {
-    email: e.target.email.value,
-    password: e.target.password.value,
-    re_password: e.target.re_password.value,
+    email: e.email,
+    password: e.password,
+    repassword: e.repassword,
   };
 
   const response = await axios.post(

@@ -1,12 +1,17 @@
-import React from 'react';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Flex } from 'antd';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Form, Input, Flex } from "antd";
+
+import { login } from "../../store/auth/AuthSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
 
-  const onFinish = (values) => {
-    console.log("Logging in with:", values);
-    alert("Đăng nhập thành công!");
+  const loading = useSelector((state) => state.auth.loading);
+
+  const handleSubmit = (values) => {
+    dispatch(login(values));
   };
 
   return (
@@ -14,19 +19,28 @@ const Login = () => {
       name="login"
       initialValues={{ remember: true }}
       style={{ maxWidth: 360 }}
-      onFinish={onFinish}
+      onFinish={handleSubmit}
     >
       <Form.Item
-        name="username"
-        rules={[{ required: true, message: 'Please input your Username!' }]}
+        name="email"
+        rules={[{ required: true, message: "Please input your Email!" }]}
       >
-        <Input prefix={<UserOutlined />} placeholder="Username" />
+        <Input
+          prefix={<UserOutlined />}
+          placeholder="Email"
+          disabled={loading}
+        />
       </Form.Item>
       <Form.Item
         name="password"
-        rules={[{ required: true, message: 'Please input your Password!' }]}
+        rules={[{ required: true, message: "Please input your Password!" }]}
       >
-        <Input prefix={<LockOutlined />} type="password" placeholder="Password" />
+        <Input
+          prefix={<LockOutlined />}
+          type="password"
+          placeholder="Password"
+          disabled={loading}
+        />
       </Form.Item>
       <Form.Item>
         <Flex justify="space-between" align="center">
@@ -38,7 +52,7 @@ const Login = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button block type="primary" htmlType="submit">
+        <Button block type="primary" htmlType="submit" disabled={loading}>
           Log in
         </Button>
         or <a href="/signup">Register now!</a>
@@ -47,4 +61,4 @@ const Login = () => {
   );
 };
 
-export default Login
+export default Login;

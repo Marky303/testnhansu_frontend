@@ -25,7 +25,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       ></script>
       <link
         rel="stylesheet"
-        href="../node_modules/@chatscope/chat-ui-kit-styles/dist/default/styles.min.css"
       />
     </Helmet>
   </>
