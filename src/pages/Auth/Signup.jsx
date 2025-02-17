@@ -12,7 +12,7 @@ const SignUp = ({ handleSubmit, loading }) => {
   return (
     <Layout
       style={{
-        background: 'url(/src/assets/background.jpg)',
+        background: 'url(/src/asset/background.jpg)',
         backgroundPosition: 'center center',
         backgroundSize: 'cover',
         height: '120dvh',
@@ -98,7 +98,7 @@ const SignUp = ({ handleSubmit, loading }) => {
                 }}
               >
                 Already have an account?{' '}
-                <a href="/login" style={{ color: 'white' }}>
+                <a href="/login" style={{ color: 'blue' }}>
                   Login here!
                 </a>
               </p>
